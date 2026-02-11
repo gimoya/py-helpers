@@ -83,8 +83,11 @@ def generate_index_html(folder_path=".", output_file="index.html"):
     items = []
     try:
         for item in sorted(folder.iterdir(), key=lambda x: (x.is_file(), x.name.lower())):
-            # Skip the output file itself, this script, .git directory, and .gitignore
-            if item.name in [output_file, "generate_index.py", ".git", ".gitignore"]:
+            if item.name.startswith("."):
+                continue
+            if item.name == output_file or item.name == "generate_index.py":
+                continue
+            if item.is_file() and item.suffix.lower() == ".bat":
                 continue
             items.append(item)
     except PermissionError:
