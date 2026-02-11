@@ -9,7 +9,7 @@ from pathlib import Path
 
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 MM_PER_INCH = 25.4
-DEFAULT_STROKE_MM = 0.5
+DEFAULT_STROKE_MM = 2.0
 DEFAULT_INCLINATION_DEG = 5.0
 DEFAULT_DPI = 200
 DEFAULT_MAX_SIDE = 630
@@ -156,7 +156,8 @@ Examples (input defaults to current dir, output to ./framed unless -o set):
         out_dir = folder
     else:
         out_dir = Path(args.output).resolve()
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if not out_dir.exists():
+        out_dir.mkdir(parents=True)
     color_suffix = args.stroke_color.replace(",", "-")
     name_suffix = "_f%d_s%s_%s" % (args.frame, args.stroke, color_suffix)
     count = 0
